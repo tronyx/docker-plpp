@@ -16,7 +16,7 @@ docker create \
   -v <path to data>:/config \
   -e PGID=<gid> -e PUID=<uid>  \
   -p 80:80 \
-  tronyx/plpp
+  tronyx/docker-plpp
 ```
 
 ## Parameters
