@@ -50,4 +50,4 @@ Point your web browser to `DOCKER-HOST-IP:PLPP-PORT/settings.php`, IE: `http://1
 * Shell access whilst the container is running: `docker exec -it plpp /bin/bash`
 * To monitor the logs of the container in realtime: `docker logs -f plpp`
 * Container version number: `docker inspect -f '{{ index .Config.Labels "build_version" }}' plpp`
-* Image version number: `docker inspect -f '{{ index .Config.Labels "build_version" }}' tronyx/plpp`
+* Image version number: `docker inspect -f '{{ index .Config.Labels "build_version" }}' tronyx/docker-plpp`
