@@ -5,7 +5,7 @@ if [ ! -f /config/nginx/.nginx.conf.original ]; then
   echo '--------------------------------------'
   echo '|      Backing up Nginx config       |'
   echo '--------------------------------------'
-  mv /config/nginx/nginx.conf /config/nginx/nginx.conf.original
+  mv /config/nginx/nginx.conf /config/nginx/.nginx.conf.original
   echo '--------------------------------------'
   echo '|     Copying Nginx config file      |'
   echo '--------------------------------------'
