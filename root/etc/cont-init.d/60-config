@@ -1,5 +1,17 @@
 #!/usr/bin/with-contenv bash
 
+# Copy over modified nginx.conf
+if [ ! -f /config/nginx/.nginx.conf.original ]; then
+  echo '--------------------------------------'
+  echo '|      Backing up Nginx config       |'
+  echo '--------------------------------------'
+  mv /config/nginx/nginx.conf /config/nginx/nginx.conf.original
+  echo '--------------------------------------'
+  echo '|     Copying Nginx config file      |'
+  echo '--------------------------------------'
+  cp /defaults/nginx.conf /config/nginx/nginx.conf
+fi
+
 # Backup the www.conf file for PHP-FPM if it exists
 # & copy in www.conf for PHP-FPM
 if [ ! -f /etc/php7/php-fpm.d/www.conf.original ]; then
