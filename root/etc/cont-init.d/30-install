@@ -1,0 +1,24 @@
+#!/usr/bin/with-contenv bash
+
+# Fetch site or update existing
+if [[ ! -d /config/www/PLPP/.git ]]; then
+  echo '-------------------'
+  echo '| Installing PLPP |'
+  echo '-------------------'
+  git clone https://github.com/Tensai75/plpp.git /config/www/PLPP
+elif [[ -d /config/www/PLPP/.git ]]; then
+  echo '-------------------'
+  echo '|  Updating PLPP  |'
+  echo '-------------------'
+  cd /config/www/PLPP || return
+  git reset --hard origin/master
+  git pull --rebase
+fi
+
+# Set Permissions
+chown -R abc:abc \
+	/config
+chmod 777 \
+  /config/www/PLPP/cache
+chmod 777 \
+/config/www/PLPP/config
