@@ -28,6 +28,6 @@ server {
 		fastcgi_cache phpcache;
 		fastcgi_cache_valid 200 30m;
 		fastcgi_cache_methods GET HEAD;
-		add_header X-Fastcgi-Cache $upstream_cache_status;etc/nginx/fastcgi_params;
+		add_header X-Fastcgi-Cache $upstream_cache_status;
 	}
 }
