@@ -15,17 +15,11 @@ server {
     deny all;
   }
 
-	location ^~ / {
-		index index.html index.php;
-    add_header X-Robots-Tag none;
-	}
-
 	location ~ \.php$ {
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
 		fastcgi_pass 127.0.0.1:9000;
 		fastcgi_index index.php;
 		include /etc/nginx/fastcgi_params;
-		fastcgi_cache phpcache;
 		fastcgi_cache_valid 200 30m;
 		fastcgi_cache_methods GET HEAD;
 		add_header X-Fastcgi-Cache $upstream_cache_status;
