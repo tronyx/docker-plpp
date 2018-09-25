@@ -1,26 +1,31 @@
 server {
-	listen 80 default_server;
-	root /config/www/PLPP;
-	index index.html index.htm index.php;
-	server_name _;
+  listen 80 default_server;
+  root /config/www/PLPP;
+  index index.html index.htm index.php;
+  server_name _;
 
-	location = /robots.txt {
+  location = /robots.txt {
     add_header Content-Type text/plain;
     return 200 "User-agent: *\nDisallow: /\n";
   }
 
   # Deny access to all .ht files
-    location ~ /\.ht {
+  location ~ /\.ht {
     deny all;
   }
 
-	location ~ \.php$ {
-		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+  location ~ \.php$ {
+    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+    try_files $fastcgi_script_name =404;
 		fastcgi_pass 127.0.0.1:9000;
-		fastcgi_index index.php;
-		include /etc/nginx/fastcgi_params;
+    fastcgi_index index.php;
+    set $path_info $fastcgi_path_info;
+    fastcgi_param PATH_INFO $path_info;
+    include /etc/nginx/fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		fastcgi_cache phpcache;
 		fastcgi_cache_valid 200 30m;
 		fastcgi_cache_methods GET HEAD;
 		add_header X-Fastcgi-Cache $upstream_cache_status;
-	}
+  }
 }
