@@ -3,7 +3,6 @@ server {
 	root /config/www/PLPP;
 	index index.html index.htm index.php;
 	server_name _;
-	client_max_body_size 0;
 
 	location = /robots.txt {
     add_header Content-Type text/plain;

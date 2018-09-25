@@ -5,7 +5,7 @@ if [[ ! -d /config/www/PLPP/.git ]]; then
   echo '-------------------'
   echo '| Installing PLPP |'
   echo '-------------------'
-  git clone https://github.com/Tensai75/plpp.git /config/www/PLPP
+  git clone https://github.com/christronyxyocum/plpp.git /config/www/PLPP
 elif [[ -d /config/www/PLPP/.git ]]; then
   echo '-------------------'
   echo '|  Updating PLPP  |'
