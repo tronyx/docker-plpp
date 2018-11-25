@@ -19,6 +19,26 @@ docker create \
   tronyx/docker-plpp
 ```
 
+Then start the container with:
+
+```
+docker start plpp
+```
+
+For Docker-Compose you can use something similar to the below:
+
+```
+plpp:
+  container_name: plpp
+  image: tronyx/docker-plpp
+  hostname: plpp
+  restart: on-failure
+  volumes:
+    - "/home/plpp/config/:/config"
+  ports:
+    - "8383:80"
+```
+
 ## Parameters
 
 The parameters are split into two halves, separated by a colon, the left hand side representing the host and the right the container side. For example with a port -p external:internal - what this shows is the port mapping from internal to external of the container. So `-p 8080:80` would expose port 80 from inside the container to be accessible from the host's IP on port 8080 and `http://192.168.x.x:8080` would show you what's running INSIDE the container on port 80.
