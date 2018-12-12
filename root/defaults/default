@@ -16,11 +16,11 @@ server {
 
   location / {
       try_files $uri $uri/ /index.html /index.php?$args =404;
-      include /config/nginx/php.conf
+      include /config/nginx/php.conf;
   }
 
   location /plpp/ {
       root /config/www;
-      include /config/nginx/php.conf
+      include /config/nginx/php.conf;
   }
 }
