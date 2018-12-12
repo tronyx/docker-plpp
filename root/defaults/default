@@ -1,6 +1,6 @@
 server {
   listen 80 default_server;
-  root /config/www/PLPP;
+  root /config/www/plpp;
   index index.html index.htm index.php;
   server_name _;
 
@@ -14,18 +14,13 @@ server {
     deny all;
   }
 
-  location ~ \.php$ {
-    fastcgi_split_path_info ^(.+\.php)(/.+)$;
-    try_files $fastcgi_script_name =404;
-		fastcgi_pass 127.0.0.1:9000;
-    fastcgi_index index.php;
-    set $path_info $fastcgi_path_info;
-    fastcgi_param PATH_INFO $path_info;
-    include /etc/nginx/fastcgi_params;
-    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-		fastcgi_cache phpcache;
-		fastcgi_cache_valid 200 30m;
-		fastcgi_cache_methods GET HEAD;
-		add_header X-Fastcgi-Cache $upstream_cache_status;
+  location / {
+      try_files $uri $uri/ /index.html /index.php?$args =404;
+      include /config/nginx/php.conf
+  }
+
+  location /plpp/ {
+      root /config/www;
+      include /config/nginx/php.conf
   }
 }

@@ -1,16 +1,16 @@
 #!/usr/bin/with-contenv bash
 
 # Fetch site or update existing
-if [[ ! -d /config/www/PLPP/.git ]]; then
+if [[ ! -d /config/www/plpp/.git ]]; then
   echo '-------------------'
-  echo '| Installing PLPP |'
+  echo '| Installing plpp |'
   echo '-------------------'
-  git clone https://github.com/christronyxyocum/plpp.git /config/www/PLPP
-elif [[ -d /config/www/PLPP/.git ]]; then
+  git clone https://github.com/christronyxyocum/plpp.git /config/www/plpp
+elif [[ -d /config/www/plpp/.git ]]; then
   echo '-------------------'
-  echo '|  Updating PLPP  |'
+  echo '|  Updating plpp  |'
   echo '-------------------'
-  cd /config/www/PLPP || return
+  cd /config/www/plpp || return
   git reset --hard origin/master
   git pull --rebase
 fi
@@ -19,6 +19,6 @@ fi
 chown -R abc:abc \
 	/config
 chmod 777 \
-  /config/www/PLPP/cache
+  /config/www/plpp/cache
 chmod 777 \
-/config/www/PLPP/config
+/config/www/plpp/config

@@ -27,6 +27,18 @@ elif [[ ! -f /config/php/www.conf ]]; then
   cp /defaults/www.conf /etc/php7/php-fpm.d/www.conf
 fi
 
+# Copy over php.conf
+if [ ! -f /config/nginx/.php.conf.original ]; then
+  echo '--------------------------------------'
+  echo '|      Backing up PHP config       |'
+  echo '--------------------------------------'
+  mv /config/nginx/php.conf /config/nginx/.php.conf.original
+  echo '--------------------------------------'
+  echo '|     Copying Nginx config file      |'
+  echo '--------------------------------------'
+  cp /defaults/php.conf /config/nginx/php.conf
+fi
+
 # Copy over modified default site file
 # to use PHP-FPM
 if [ ! -f /config/nginx/site-confs/.default.original ]; then
