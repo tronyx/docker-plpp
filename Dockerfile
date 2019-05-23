@@ -1,22 +1,18 @@
-FROM lsiobase/alpine.nginx:3.8
-MAINTAINER christronyxyocum
-
-# Set version label
-ARG BUILD_DATE
-ARG VERSION
+FROM lsiobase/alpine.nginx:3.9
+LABEL MAINTAINER=christronyxyocum
 
 # Install packages
 RUN \
  apk add --no-cache \
-	curl \
+  curl \
   memcached \
-	php7-gd \
+  php7-gd \
   php7-curl \
-	php7-ldap \
-	php7-pdo_sqlite \
-	php7-sqlite3 \
-	php7-session \
-	php7-zip
+  php7-ldap \
+  php7-pdo_sqlite \
+  php7-sqlite3 \
+  php7-session \
+  php7-zip
 
 # Add local files
 COPY root/ /
