@@ -4,9 +4,9 @@ services:
 language: bash
 script:
   # Build image
-  - docker build -t christronyxyocum/docker-plpp .
+  - docker build -t tronyx/docker-plpp .
   # Test image
-  - docker run christronyxyocum/docker-plpp nginx -v
+  - docker run tronyx/docker-plpp nginx -v
 after_success:
   # Push image
   - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS" ${DOCKER_REGISTRY}
