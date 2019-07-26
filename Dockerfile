@@ -1,4 +1,4 @@
-FROM lsiobase/alpine.nginx:3.9
+FROM lsiobase/nginx:3.10
 LABEL MAINTAINER=christronyxyocum
 
 # Install packages
