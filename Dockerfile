@@ -1,5 +1,8 @@
-FROM lsiobase/nginx:3.10
-LABEL MAINTAINER=christronyxyocum
+FROM lsiobase/nginx:arm64v8-3.10
+LABEL MAINTAINER="christronyxyocum"
+
+# Copy the qemu-arm-static file
+COPY qemu-aarch64-static /usr/bin/qemu-aarch64-static
 
 # Install packages
 RUN \
