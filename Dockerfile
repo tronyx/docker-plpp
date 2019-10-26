@@ -1,5 +1,5 @@
-FROM lsiobase/nginx:3.10
-LABEL MAINTAINER=christronyxyocum
+FROM lsiobase/nginx:arm32v7-3.10
+LABEL MAINTAINER="christronyxyocum"
 
 # Install packages
 RUN \

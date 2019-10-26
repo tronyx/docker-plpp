@@ -2,12 +2,17 @@ sudo: required
 services:
   - docker
 language: bash
+addons:
+  apt:
+    packages:
+      - qemu
+      - qemu-user-static
+      - qemu-user
+      - binfmt-support
 script:
   # Build image
-  - docker build -t tronyx/docker-plpp .
-  # Test image
-  - docker run tronyx/docker-plpp nginx -v
+  - docker build -t tronyx/docker-plpp:armhf .
 after_success:
-  # Push image
-  - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS" ${DOCKER_REGISTRY}
-  - docker push tronyx/docker-plpp
+  # Push image if not a PR
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker login -u "$DOCKER_USER" -p "$DOCKER_PASS" ${DOCKER_REGISTRY}; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push tronyx/docker-plpp:armhf; fi'
