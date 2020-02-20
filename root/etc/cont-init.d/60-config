@@ -47,23 +47,21 @@ if [[ $(grep -c healthcheck /config/nginx/site-confs/default) -eq 0 ]]; then
   echo '--------------------------------------'
   echo '|  Updating default for healthcheck  |'
   echo '--------------------------------------'
-  sed -i $'s|root /config/www/plpp;|root /config/www/plpp;\\\n        include /config/nginx/healthcheck.conf;|g' /config/nginx/site-confs/default
+  sed -i $'s|root /config/www/plpp;|root /config/www/plpp;\\\n  include /config/nginx/healthcheck.conf;|g' /config/nginx/site-confs/default
 elif [[ $(grep -c healthcheck /config/nginx/site-confs/default) -ge 1 ]]; then
   :
 fi
 
-# Check for the try_files line for CVE-2019-11043 and,
-# if it does not exist, add it
+# Check for the try_files line for CVE-2019-11043 and, if it does not exist, add it
 if [[ $(grep -c try_files /config/nginx/php.conf) -eq 1 ]]; then
-  sed -i $'s|fastcgi_split_path_info \^(\.+\\\.php)(\/\.+)\$;|fastcgi_split_path_info \^(\.+\\\.php)(\/\.+)\$;\\\n                try_files $fastcgi_script_name =404;|g' /config/nginx/php.conf
+  sed -i $'s|fastcgi_split_path_info \^(\.+\\\.php)(\/\.+)\$;|fastcgi_split_path_info \^(\.+\\\.php)(\/\.+)\$;\\\n          try_files $fastcgi_script_name =404;|g' /config/nginx/php.conf
 elif [[ $(grep -c try_files /config/nginx/php.conf) -ge 2 ]]; then
   :
 fi
 
-# Check for the fastcgi_hide_header line and,
-# if it does not exist, add it
+# Check for the fastcgi_hide_header line and, if it does not exist, add it
 if [[ $(grep -c fastcgi_hide_header /config/nginx/php.conf) -eq 0 ]]; then
-  sed -i $'s|include /etc/nginx/fastcgi_params;|include /etc/nginx/fastcgi_params;\\\n                fastcgi_hide_header X-Powered-By;|g' /config/nginx/php.conf
+  sed -i $'s|include /etc/nginx/fastcgi_params;|include /etc/nginx/fastcgi_params;\\\n          fastcgi_hide_header X-Powered-By;|g' /config/nginx/php.conf
 elif [[ $(grep -c fastcgi_hide_header /config/nginx/php.conf) -ge 1 ]]; then
   :
 fi
