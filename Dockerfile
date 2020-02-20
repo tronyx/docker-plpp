@@ -7,6 +7,7 @@ RUN \
   curl \
   git \
   memcached \
+  openssl \
   php7-gd \
   php7-curl \
   php7-ldap \
