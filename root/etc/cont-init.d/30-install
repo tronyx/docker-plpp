@@ -35,8 +35,8 @@ else
   mkdir "/config/www/plpp/config/${newSecretKey}/"
   # Move existing config files into the new hash dir if they exist
   if [ -s /config/www/plpp/config/general.json ]; then
-    mv /config/www/plpp/config/*.json "/config/www/plpp/config/${newSecretKey}/"
-    mv /config/www/plpp/config/.htaccess "/config/www/plpp/config/${newSecretKey}/"
+    mv -f /config/www/plpp/config/*.json "/config/www/plpp/config/${newSecretKey}/"
+    mv -f /config/www/plpp/config/.htaccess "/config/www/plpp/config/${newSecretKey}/"
   else
     :
   fi
