@@ -2,32 +2,41 @@
 
 # Fetch site or update existing
 if [[ ! -d /config/www/plpp/.git ]]; then
-  echo '-------------------'
-  echo '| Installing plpp |'
-  echo '-------------------'
+  echo '--------------------------------------'
+  echo '|          Installing PLPP           |'
+  echo '--------------------------------------'
   git clone https://github.com/christronyxyocum/plpp.git /config/www/plpp
 elif [[ -d /config/www/plpp/.git ]]; then
-  echo '-------------------'
-  echo '|  Updating plpp  |'
-  echo '-------------------'
+  echo '--------------------------------------'
+  echo '|           Updating PLPP            |'
+  echo '--------------------------------------'
   cd /config/www/plpp || return
   git reset --hard origin/master
   git pull --rebase
 fi
 
 # The following is for masking the Plex credentials
-# Create secret.php file
-echo '<?php' > /config/www/plpp/secret.php
-echo $'$dockerHash = \'SECRET\';' >> /config/www/plpp/secret.php
-# Generate hash key
-newSecretKey=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-24)
-# Update secret.php with generated hash key
-sed -i "s;SECRET;${newSecretKey};g" /config/www/plpp/secret.php
-# Create the hash key directory
-mkdir "/config/www/plpp/config/${newSecretKey}/"
-# Move .htaccess and mediatypes.json into new hash directory
-mv /config/www/plpp/config/.htaccess "/config/www/plpp/config/${newSecretKey}/"
-mv /config/www/plpp/config/mediatypes.json "/config/www/plpp/config/${newSecretKey}/"
+# Check if the secret.php file exists and, if not,
+# run through hash key creation process
+if [ -s /config/www/plpp/secret.php ]; then
+  :
+else
+  echo '--------------------------------------'
+  echo '|    Performing super secret work    |'
+  echo '--------------------------------------'
+  # Create secret.php file
+  echo '<?php' > /config/www/plpp/secret.php
+  echo $'$dockerHash = \'SECRET\';' >> /config/www/plpp/secret.php
+  # Generate hash key
+  newSecretKey=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-24)
+  # Update secret.php with generated hash key
+  sed -i "s;SECRET;${newSecretKey};g" /config/www/plpp/secret.php
+  # Create the hash key directory
+  mkdir "/config/www/plpp/config/${newSecretKey}/"
+  # Move .htaccess and mediatypes.json into hash key directory
+  mv /config/www/plpp/config/.htaccess "/config/www/plpp/config/${newSecretKey}/"
+  mv /config/www/plpp/config/mediatypes.json "/config/www/plpp/config/${newSecretKey}/"
+fi
 
 # Set permissions
 chown -R abc:abc \
