@@ -1,0 +1,13 @@
+sudo: required
+services:
+  - docker
+language: bash
+script:
+  # Build image
+  - docker build -t tronyx/docker-plpp:testing .
+  # Test image
+  - docker run tronyx/docker-plpp:testing nginx -v
+after_success:
+  # Push image
+  - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS" ${DOCKER_REGISTRY}
+  - docker push tronyx/docker-plpp:testing

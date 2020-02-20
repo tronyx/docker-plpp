@@ -1,0 +1,33 @@
+#!/usr/bin/with-contenv bash
+
+# Fetch site or update existing
+if [[ ! -d /config/www/plpp/.git ]]; then
+  echo '-------------------'
+  echo '| Installing plpp |'
+  echo '-------------------'
+  git clone https://github.com/christronyxyocum/plpp.git /config/www/plpp
+elif [[ -d /config/www/plpp/.git ]]; then
+  echo '-------------------'
+  echo '|  Updating plpp  |'
+  echo '-------------------'
+  cd /config/www/plpp || return
+  git reset --hard origin/master
+  git pull --rebase
+fi
+
+# The following is for masking the Plex credentials
+# Create secret.php file
+echo '<?php' > /config/www/plpp/secret.php
+echo $'$dockerHash = \'SECRET\';' >> /config/www/plpp/secret.php
+# Generate hash key
+newSecretKey=$(openssl rand -base64 24)
+# Update secret.php with generated hash key
+sed -i "s;SECRET;${newSecretKey};g" /config/www/plpp/secret.php
+
+# Set permissions
+chown -R abc:abc \
+	/config
+chmod 777 \
+  /config/www/plpp/cache
+chmod 777 \
+/config/www/plpp/config
