@@ -20,14 +20,21 @@ fi
 echo '<?php' > /config/www/plpp/secret.php
 echo $'$dockerHash = \'SECRET\';' >> /config/www/plpp/secret.php
 # Generate hash key
-newSecretKey=$(openssl rand -base64 24)
+newSecretKey=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-24)
 # Update secret.php with generated hash key
 sed -i "s;SECRET;${newSecretKey};g" /config/www/plpp/secret.php
+# Create the hash key directory
+mkdir "/config/www/plpp/config/${newSecretKey}/"
+# Move .htaccess and mediatypes.json into new hash directory
+mv /config/www/plpp/config/.htaccess "/config/www/plpp/config/${newSecretKey}/"
+mv /config/www/plpp/config/mediatypes.json "/config/www/plpp/config/${newSecretKey}/"
 
 # Set permissions
 chown -R abc:abc \
-	/config
+  /config
 chmod 777 \
   /config/www/plpp/cache
 chmod 777 \
-/config/www/plpp/config
+  /config/www/plpp/config
+chmod 777 \
+  "/config/www/plpp/config/${newSecretKey}/"
