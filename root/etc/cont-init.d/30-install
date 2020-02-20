@@ -2,23 +2,60 @@
 
 # Fetch site or update existing
 if [[ ! -d /config/www/plpp/.git ]]; then
-  echo '-------------------'
-  echo '| Installing plpp |'
-  echo '-------------------'
+  echo '--------------------------------------'
+  echo '|          Installing PLPP           |'
+  echo '--------------------------------------'
   git clone https://github.com/christronyxyocum/plpp.git /config/www/plpp
 elif [[ -d /config/www/plpp/.git ]]; then
-  echo '-------------------'
-  echo '|  Updating plpp  |'
-  echo '-------------------'
+  echo '--------------------------------------'
+  echo '|           Updating PLPP            |'
+  echo '--------------------------------------'
   cd /config/www/plpp || return
   git reset --hard origin/master
   git pull --rebase
 fi
 
-# Set Permissions
+# The following is for masking the Plex credentials
+# Check if the secret.php file exists and, if not, run through hash key dir creation process
+if [ -s /config/www/plpp/secret.php ]; then
+  hashDir=$(grep docker /config/www/plpp/secret.php | awk '{print $3}' | tr -d "';")
+  mv -f /config/www/plpp/config/.htaccess "/config/www/plpp/config/${hashDir}/"
+  mv -f /config/www/plpp/config/mediatypes.json "/config/www/plpp/config/${hashDir}/"
+else
+  echo '--------------------------------------'
+  echo '|       Create hashed conf dir       |'
+  echo '--------------------------------------'
+  # Create secret.php file
+  echo '<?php' > /config/www/plpp/secret.php
+  echo $'$dockerHash = \'SECRET\';' >> /config/www/plpp/secret.php
+  # Generate hash key
+  hashDir=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-24)
+  # Update secret.php with generated hash key
+  sed -i "s;SECRET;${hashDir};g" /config/www/plpp/secret.php
+  # Create the hash key directory
+  mkdir "/config/www/plpp/config/${hashDir}/"
+  # Move existing config files into the new hash dir if they exist
+  if [ -s /config/www/plpp/config/general.json ]; then
+    mv -f /config/www/plpp/config/*.json "/config/www/plpp/config/${hashDir}/"
+    mv -f /config/www/plpp/config/.htaccess "/config/www/plpp/config/${hashDir}/"
+  else
+    :
+  fi
+fi
+
+# Remove old PLPP (uppercase) directory, if it exists, because I'm a dummy
+if [[ -d /config/www/PLPP/ ]]; then
+  rm -rf /config/www/PLPP/
+else
+  :
+fi
+
+# Set permissions
 chown -R abc:abc \
-	/config
+  /config
 chmod 777 \
   /config/www/plpp/cache
 chmod 777 \
-/config/www/plpp/config
+  /config/www/plpp/config
+chmod 777 \
+  "/config/www/plpp/config/${hashDir}/"

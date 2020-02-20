@@ -5,13 +5,13 @@ server {
   server_name _;
 
   location = /robots.txt {
-    add_header Content-Type text/plain;
-    return 200 "User-agent: *\nDisallow: /\n";
+      add_header Content-Type text/plain;
+      return 200 "User-agent: *\nDisallow: /\n";
   }
 
   # Deny access to all .ht files
   location ~ /\.ht {
-    deny all;
+      deny all;
   }
 
   location / {
