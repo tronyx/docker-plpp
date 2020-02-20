@@ -1,4 +1,4 @@
-A Docker image for [PHP Library Presenter for PLEX](https://github.com/Tensai75/plpp) using the `lsiobase/alpine.nginx:3.8` base image.
+A Docker image for [PHP Library Presenter for PLEX](https://github.com/Tensai75/plpp).
 
 # tronyx/docker-plpp
 
