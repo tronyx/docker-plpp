@@ -1,5 +1,8 @@
 #!/usr/bin/with-contenv bash
 
+# Create Nginx dir
+mkdir -p /config/nginx/site-confs
+
 # Copy over modified nginx.conf
 if [ ! -f /config/nginx/.nginx.conf.original ]; then
   echo '--------------------------------------'
@@ -30,11 +33,7 @@ fi
 # Copy over php.conf
 if [ ! -f /config/nginx/.php.conf.original ]; then
   echo '--------------------------------------'
-  echo '|      Backing up PHP config       |'
-  echo '--------------------------------------'
-  mv /config/nginx/php.conf /config/nginx/.php.conf.original
-  echo '--------------------------------------'
-  echo '|     Copying Nginx config file      |'
+  echo '|     Copying PHP config file      |'
   echo '--------------------------------------'
   cp /defaults/php.conf /config/nginx/php.conf
 fi
@@ -42,10 +41,6 @@ fi
 # Copy over modified default site file
 # to use PHP-FPM
 if [ ! -f /config/nginx/site-confs/.default.original ]; then
-  echo '--------------------------------------'
-  echo '|      Backing up default file       |'
-  echo '--------------------------------------'
-  mv /config/nginx/site-confs/default /config/nginx/site-confs/.default.original
   echo '--------------------------------------'
   echo '|      Copying default site file     |'
   echo '--------------------------------------'
