@@ -12,8 +12,7 @@ if [ ! -f /config/nginx/.nginx.conf.original ]; then
   cp /defaults/nginx.conf /config/nginx/nginx.conf
 fi
 
-# Backup the www.conf file for PHP-FPM if it exists
-# & copy in www.conf for PHP-FPM
+# Backup the www.conf file for PHP-FPM if it exists & copy in www.conf for PHP-FPM
 if [ ! -f /etc/php7/php-fpm.d/www.conf.original ]; then
   echo '--------------------------------------'
   echo '|      Backing up www.conf file      |'
@@ -35,8 +34,7 @@ if [ ! -f /config/nginx/.php.conf.original ]; then
   cp /defaults/php.conf /config/nginx/php.conf
 fi
 
-# Copy over modified default site file
-# to use PHP-FPM
+# Copy over modified default site file to use PHP-FPM
 if [ ! -f /config/nginx/site-confs/.default.original ]; then
   echo '--------------------------------------'
   echo '|     Copying default site file      |'
@@ -44,9 +42,11 @@ if [ ! -f /config/nginx/site-confs/.default.original ]; then
   cp /defaults/default /config/nginx/site-confs/default
 fi
 
-# Check for the include for the healthcheck conf and,
-# if it does not exist, add it
+# Check for the include for the healthcheck conf and, if it does not exist, add it
 if [[ $(grep -c healthcheck /config/nginx/site-confs/default) -eq 0 ]]; then
+  echo '--------------------------------------'
+  echo '|  Updating default for healthcheck  |'
+  echo '--------------------------------------'
   sed -i $'s|root /config/www/plpp;|root /config/www/plpp;\\\n        include /config/nginx/healthcheck.conf;|g' /config/nginx/site-confs/default
 elif [[ $(grep -c healthcheck /config/nginx/site-confs/default) -ge 1 ]]; then
   :
@@ -54,15 +54,14 @@ fi
 
 # Copy over Nginx status config file if it doesn't exist
 if [ ! -f /config/nginx/healthcheck.conf ]; then
-  echo '----------------------------------'
-  echo '| Copying Nginx status conf file |'
-  echo '----------------------------------'
+  echo '--------------------------------------'
+  echo '|   Copying Nginx status conf file   |'
+  echo '--------------------------------------'
   cp /defaults/healthcheck.conf /config/nginx/healthcheck.conf
 else
   :
 fi
 
 # Triple-checking permissions are correct
-# Set Permissions
 chown -R abc:abc \
   /config
