@@ -42,6 +42,13 @@ else
   fi
 fi
 
+# Remove old PLPP (uppercase) directory, if it exists, because I'm a dummy
+if [[ -d /config/www/PLPP/ ]]; then
+  rm -rf /config/www/PLPP/
+else
+  :
+fi
+
 # Set permissions
 chown -R abc:abc \
   /config
