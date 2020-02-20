@@ -61,7 +61,7 @@ fi
 
 # Check for the fastcgi_hide_header line and, if it does not exist, add it
 if [[ $(grep -c fastcgi_hide_header /config/nginx/php.conf) -eq 0 ]]; then
-  sed -i $'s|include /etc/nginx/fastcgi_params;|include /etc/nginx/fastcgi_params;\\\n          fastcgi_hide_header X-Powered-By;|g' /config/nginx/php.conf
+  sed -i $'s|include /etc/nginx/fastcgi_params;|include /etc/nginx/fastcgi_params;\\\n    fastcgi_hide_header X-Powered-By;|g' /config/nginx/php.conf
 elif [[ $(grep -c fastcgi_hide_header /config/nginx/php.conf) -ge 1 ]]; then
   :
 fi
