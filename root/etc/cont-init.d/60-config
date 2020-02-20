@@ -53,9 +53,9 @@ elif [[ $(grep -c healthcheck /config/nginx/site-confs/default) -ge 1 ]]; then
 fi
 
 # Check for the try_files line for CVE-2019-11043 and, if it does not exist, add it
-if [[ $(grep -c try_files /config/nginx/php.conf) -eq 2 ]]; then
+if [[ $(grep -c try_files /config/nginx/php.conf) -eq 0 ]]; then
   sed -i $'s|fastcgi_split_path_info \^(\.+\\\.php)(\/\.+)\$;|fastcgi_split_path_info \^(\.+\\\.php)(\/\.+)\$;\\\n          try_files $fastcgi_script_name =404;|g' /config/nginx/php.conf
-elif [[ $(grep -c try_files /config/nginx/php.conf) -ge 3 ]]; then
+elif [[ $(grep -c try_files /config/nginx/php.conf) -ge 1 ]]; then
   :
 fi
 
