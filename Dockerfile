@@ -5,6 +5,7 @@ LABEL MAINTAINER="christronyxyocum"
 RUN \
  apk add --no-cache \
   curl \
+  git \
   memcached \
   php7-gd \
   php7-curl \
