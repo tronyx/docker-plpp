@@ -1,6 +1,9 @@
-A Docker image for [PHP Library Presenter for PLEX](https://github.com/Tensai75/plpp).
+# tronyx/plpp
 
-# tronyx/docker-plpp
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/tronyx/docker-plpp/Build%20Container)
+![Docker Pulls](https://img.shields.io/docker/pulls/tronyx/plpp)
+
+A Docker image for [PHP Library Presenter for PLEX](https://github.com/Tensai75/plpp).
 
 Feel free to submit Pull Requests and report any Issues that you may have found.
 
@@ -16,7 +19,7 @@ docker create \
   -v <path to data>:/config \
   -e PGID=<gid> -e PUID=<uid>  \
   -p 80:80 \
-  tronyx/docker-plpp
+  tronyx/plpp
 ```
 
 Then start the container with:
@@ -30,7 +33,7 @@ For Docker-Compose you can use something similar to the below:
 ```
 plpp:
   container_name: plpp
-  image: tronyx/docker-plpp
+  image: tronyx/plpp
   hostname: plpp
   restart: on-failure
   volumes:
@@ -39,11 +42,7 @@ plpp:
     - "8383:80"
 ```
 
-## Image Tags
-
-* The `latest` tag will get you the original PLPP image.
-* The `armhf` tag is an adaptation of the `latest` image for ArmHF platforms like the RaspberryPi.
-* The `arm64` tag is an adaptation of the `latest` image for Arm64 platforms like the ASRock64.
+This image is also available in GitHubs Container Registry at `ghcr.io/tronyx/plpp`
 
 ## Parameters
 
@@ -66,6 +65,22 @@ In this instance `PUID=1001` and `PGID=1001`. To find yours use `id user` as bel
   $ id <dockeruser>
     uid=1001(dockeruser) gid=1001(dockergroup) groups=1001(dockergroup)
 ```
+
+## Multi-arch
+
+Manifested docker images built with buildkit.
+
+Supported architetures:
+
+| Architecture | Tag |
+| :----: | --- |
+| x86-64 | linux-amd64 |
+| arm64 | linux-arm64 |
+| armhf | linux-arm-v7 |
+
+## Migration
+
+This should be a drop-in replacement coming from `tronyx/docker-plpp` as all I did was change the name.
 
 ## Setting up the application
 
